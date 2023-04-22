@@ -19,10 +19,13 @@ OPTIONS = -cp "$(BUILD_DIR)/"
 
 # Source files
 PLAYER_FILE = schillaci/Schillaci.java
+MAIN_FILE = connectx/CXGame.java
+
+ALL_FILES = $(wildcard $(SRC_DIR)/*.java) $(wildcard $(SRC_DIR)/*/*.java) $(wildcard $(SRC_DIR)/*/*/*.java)
 
 # Default parameters (can also be specified from command line)
 CX = 6 7 4
-REPS = 1
+REPS = 100
 
 app:
 	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(QUASI_RANDOM)
@@ -34,7 +37,7 @@ run:
 build: clean-build
 	@echo "Building..."
 	@mkdir -p $(BUILD_DIR)
-	@$(JC) -cp "$(SRC_DIR)/" -d "$(BUILD_DIR)/" -sourcepath "$(SRC_DIR)/" "$(SRC_DIR)/$(PLAYER_FILE)"
+	@$(JC) -cp "$(SRC_DIR)/" -d "$(BUILD_DIR)/" -sourcepath "$(SRC_DIR)/" $(ALL_FILES)
 
 # Removes both binaries and documentation
 clean: clean-build 
