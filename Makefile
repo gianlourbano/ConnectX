@@ -25,18 +25,18 @@ ALL_FILES = $(wildcard $(SRC_DIR)/*.java) $(wildcard $(SRC_DIR)/*/*.java) $(wild
 
 # Default parameters (can also be specified from command line)
 CX = 6 7 4
-REPS = 100
+REPS = 50
 
 app:
-	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(QUASI_RANDOM)
+	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(PLAYER_CLASS) $(QUASI_RANDOM)
 
 run: 
 	@echo "Running..."
-	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_CLASS) $(QUASI_RANDOM) -r $(REPS)
+	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_CLASS) $(RANDOM) -r $(REPS)
 
-build: clean-build
+build: 
 	@echo "Building..."
-	@mkdir -p $(BUILD_DIR)
+	@mkdir $(BUILD_DIR)
 	@$(JC) -cp "$(SRC_DIR)/" -d "$(BUILD_DIR)/" -sourcepath "$(SRC_DIR)/" $(ALL_FILES)
 
 # Removes both binaries and documentation
