@@ -87,23 +87,10 @@ def play(player1: player, player2: player):
 		player1.update(int(arr[0]), int(arr[1]), int(arr[2]), int(arr[3]), int(arr[4]))
 		player2.update(int(arr[-5]), int(arr[-4]), int(arr[-3]), int(arr[-2]), int(arr[-1]))
 
-	for config in configs:
-		ret = subprocess.check_output("java -cp build/ connectx.CXPlayerTester " + config + " " + player2.name + " " + player1.name, shell=True)		
-		ret = ret.decode("utf-8")
+games = [(0, 1), (0, 2), (1, 2), (1, 0), (2, 0), (2, 1)]
 
-		name1 = player1.name[player1.name.rfind(".")+1:]
-		name2 = player2.name[player2.name.rfind(".")+1:]
-
-		ret = ret.replace(name1, "PLAYER")
-		ret = ret.replace(name2, "PLAYER")
-		
-		arr = re.findall("[0-9]+", ret)
-		player2.update(int(arr[0]), int(arr[1]), int(arr[2]), int(arr[3]), int(arr[4]))
-		player1.update(int(arr[-5]), int(arr[-4]), int(arr[-3]), int(arr[-2]), int(arr[-1]))
-
-play(player1, player2)
-play(player1, player3)
-play(player2, player3)
+for game in games:
+	play(players[game[0]], players[game[1]])
 
 players.sort(reverse=True)
 

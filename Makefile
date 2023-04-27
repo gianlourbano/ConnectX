@@ -27,14 +27,20 @@ ALL_FILES = $(wildcard $(SRC_DIR)/*.java) $(wildcard $(SRC_DIR)/*/*.java) $(wild
 CX = 6 7 4
 REPS = 50
 
+PLAYER_2 = $(QUASI_RANDOM)
+
 app:
-	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(PLAYER_CLASS) $(QUASI_RANDOM)
+	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(QUASI_RANDOM) $(PLAYER_CLASS) 
+
+test:
+	@py tester.py
 
 run: 
 	@echo "Running..."
-	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_CLASS) $(RANDOM) -r $(REPS)
+	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_CLASS) $(PLAYER_2) -r $(REPS)
+	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_2) $(PLAYER_CLASS) -r $(REPS)
 
-build: 
+build: clean-build $(ALL_FILES)
 	@echo "Building..."
 	@mkdir $(BUILD_DIR)
 	@$(JC) -cp "$(SRC_DIR)/" -d "$(BUILD_DIR)/" -sourcepath "$(SRC_DIR)/" $(ALL_FILES)
@@ -44,4 +50,4 @@ clean: clean-build
 
 # Removes binaries
 clean-build:
-	@$(RM) -rf $(BUILD_DIR)
+	@rd /s /q $(BUILD_DIR)
