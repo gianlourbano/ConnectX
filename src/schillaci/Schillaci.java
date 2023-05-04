@@ -12,8 +12,6 @@ public class Schillaci implements CXPlayer {
     private int timeout_in_secs;
 
     private Random rand;
-    private CXGameState myWin;
-    private CXGameState yourWin;
 
     private boolean first;
 
@@ -22,11 +20,7 @@ public class Schillaci implements CXPlayer {
 
     private boolean searchCutoff = false;
 
-    private long totNodes = 0;
-
     public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
-        myWin = first ? CXGameState.WINP1 : CXGameState.WINP2;
-        yourWin = first ? CXGameState.WINP2 : CXGameState.WINP1;
         this.timeout_in_secs = timeout_in_secs;
         this.first = first;
 
@@ -90,8 +84,6 @@ public class Schillaci implements CXPlayer {
     private int IterativeDeepening(CXBoard B, long search_time_limit) throws TimeoutException {
         checktime();
 
-        totNodes = 0;
-
         int depth = 1;
         int score = 0;
         searchCutoff = false;
@@ -106,7 +98,6 @@ public class Schillaci implements CXPlayer {
                 break;
 
             int searchResult = search(B, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, start, endTime - start);
-            //int searchResult = negamaxRoot(B, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, first ? 1 : -1, start,endTime - start);
 
             if (searchResult >= winCutoff) {
                 return searchResult;
@@ -126,8 +117,6 @@ public class Schillaci implements CXPlayer {
         boolean isMax = B.currentPlayer() == 0;
 
         int score = eval(B);
-
-        totNodes++;
 
         long elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -164,62 +153,6 @@ public class Schillaci implements CXPlayer {
             return beta;
         }
 
-    }
-
-    private int negamaxRoot(CXBoard B, int depth, int alpha, int beta, int color, long startTime, long timeLimit)
-            throws TimeoutException {
-        checktime();
-        Integer[] L = B.getAvailableColumns();
-        int bestScore = Integer.MIN_VALUE;
-        int bestMove = -1;
-
-        for (int col : L) {
-            B.markColumn(col);
-            int score = -negamax(B, depth - 1, -beta, -alpha, -color, startTime, timeLimit);
-            alpha = Math.max(alpha, score);
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestMove = col;
-            }
-            B.unmarkColumn();
-
-        }
-        return bestMove;
-
-    }
-
-    // Negascout implementation
-    private int negamax(CXBoard B, int depth, int alpha, int beta, int color, long startTime, long timeLimit)
-            throws TimeoutException {
-        checktime();
-
-        int score = eval(B);
-
-        if (depth <= 0 || B.gameState() != CXGameState.OPEN || score >= winCutoff || score <= -winCutoff) {
-            return color * score;
-        }
-
-        long elapsedTime = System.currentTimeMillis() - startTime;
-
-        if (elapsedTime >= timeLimit) {
-            searchCutoff = true;
-            return score;
-        }
-
-        Integer[] L = B.getAvailableColumns();
-        int bestScore = Integer.MIN_VALUE;
-        for (int col : L) {
-            B.markColumn(col);
-            score = -negamax(B, depth - 1, -beta, -alpha, -color, startTime, timeLimit);
-            B.unmarkColumn();
-            bestScore = Math.max(bestScore, score);
-            alpha = Math.max(alpha, score);
-            if (alpha >= beta) {
-                break;
-            }
-        }
-        return bestScore;
     }
 
     private int eval(CXBoard B) {
