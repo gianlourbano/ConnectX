@@ -2,7 +2,6 @@ package schillaci;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
@@ -10,44 +9,29 @@ import connectx.CXBoard;
 import connectx.CXGameState;
 import connectx.CXPlayer;
 
-public class Schillaci implements CXPlayer {
+public class Schillaci_L0 implements CXPlayer {
     private int timeout_in_secs;
 
     private Random rand;
 
-    private int M, N, X;
     private boolean first;
 
     private long START;
     private int winCutoff = 500000;
 
     private boolean searchCutoff = false;
-    private Evaluator evaluator;
-    private ZobristTable zobristTable;
-    private TranspositionTable transpositionTable;
-    private CXGameState myWin, yourWin;
-
-    // data
-    private int numNodes = 0;
-    private int numNodesEvaluated = 0;
-    private int numNodesPruned = 0;
-    private int numNodesReused = 0;
-    private String playerNameString = "Schillaci";
+    private String playerNameString = "Schillaci_L0";
+    private int numNodes, numNodesEvaluated, numNodesPruned, numNodesReused;
+    private int M, N, X;
 
     public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
         this.timeout_in_secs = timeout_in_secs;
         this.first = first;
 
         rand = new Random(System.currentTimeMillis());
-        evaluator = new Evaluator(M, N, X);
-        transpositionTable = new TranspositionTable(100 * 1024 * 1024 * 4);
-        zobristTable = new ZobristTable(M, N);
         this.M = M;
         this.N = N;
         this.X = X;
-
-        myWin = first ? CXGameState.WINP1 : CXGameState.WINP2;
-        yourWin = first ? CXGameState.WINP2 : CXGameState.WINP1;
 
         numNodes = 0;
         numNodesEvaluated = 0;
@@ -67,14 +51,9 @@ public class Schillaci implements CXPlayer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    private boolean isFirstMove(CXBoard B) {
-        return B.numOfMarkedCells() < 2;
-    }
-
-     private void shuffle(Integer[] L) {
+    private void shuffle(Integer[] L) {
         for (int i = 0; i < L.length; i++) {
             int randomIndexToSwap = rand.nextInt(L.length);
             int temp = L[randomIndexToSwap];
@@ -89,9 +68,6 @@ public class Schillaci implements CXPlayer {
         Integer[] L = B.getAvailableColumns();
         shuffle(L);
 
-        if (isFirstMove(B))
-            return this.N / 2;
-
         int max_score = first ? Integer.MIN_VALUE : Integer.MAX_VALUE;
         int best_move = -1;
 
@@ -99,7 +75,7 @@ public class Schillaci implements CXPlayer {
 
         for (int col : L) {
             B.markColumn(col);
-            long search_time_limit = ((timeout_in_secs - 1) / L.length) * 40;
+            long search_time_limit = ((timeout_in_secs - 1) / L.length) * 10;
             try {
                 score = IterativeDeepening(B, search_time_limit);
             } catch (TimeoutException e) {
@@ -127,6 +103,7 @@ public class Schillaci implements CXPlayer {
             }
         }
 
+        // System.out.println("Nodes: " + totNodes);
         return best_move;
     }
 
@@ -148,7 +125,7 @@ public class Schillaci implements CXPlayer {
 
             int searchResult = search(B, depth, Integer.MIN_VALUE, Integer.MAX_VALUE, start, endTime - start);
 
-            if (Math.abs(searchResult) >= winCutoff) {
+            if (searchResult >= winCutoff) {
                 return searchResult;
             }
 
@@ -163,19 +140,10 @@ public class Schillaci implements CXPlayer {
 
     private int search(CXBoard B, int depth, int alpha, int beta, long startTime, long timeLimit) {
         numNodes++;
-
-        long hash = zobristTable.computeHash(B);
-        int value = transpositionTable.searchHashNode(hash, depth, alpha, beta);
-        if (value != Integer.MAX_VALUE) {
-            numNodesReused++;
-            return value;
-        }
-
         Integer[] L = B.getAvailableColumns();
-        shuffle(L); 
         boolean isMax = B.currentPlayer() == 0;
 
-        int score = evaluator.eval(B);
+        int score = eval(B);
 
         long elapsedTime = System.currentTimeMillis() - startTime;
 
@@ -186,7 +154,6 @@ public class Schillaci implements CXPlayer {
 
         if (depth == 0 || B.gameState() != CXGameState.OPEN || score >= winCutoff || score <= -winCutoff) {
             numNodesEvaluated++;
-            transpositionTable.storeHashNode(hash, score, depth, TranspositionTable.EXACT);
             return score;
         }
 
@@ -202,7 +169,6 @@ public class Schillaci implements CXPlayer {
                 }
             }
 
-            transpositionTable.storeHashNode(hash, alpha, depth, TranspositionTable.LOWER_BOUND);
             return alpha;
         } else {
             for (int col : L) {
@@ -216,10 +182,13 @@ public class Schillaci implements CXPlayer {
                 }
             }
 
-            transpositionTable.storeHashNode(hash, beta, depth, TranspositionTable.UPPER_BOUND);
             return beta;
         }
 
+    }
+
+    private int eval(CXBoard B) {
+        return B.gameState() == CXGameState.WINP1 ? winCutoff : B.gameState() == CXGameState.WINP2 ? -winCutoff : 0;
     }
 
     private void checktime() throws TimeoutException {
@@ -229,6 +198,6 @@ public class Schillaci implements CXPlayer {
     }
 
     public String playerName() {
-        return playerNameString;
+        return "Schillaci_L0";
     }
 }

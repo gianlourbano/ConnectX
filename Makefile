@@ -17,32 +17,33 @@ PLAYER_TESTER_CLASS = connectx.CXPlayerTester
 # Command line options
 OPTIONS = -cp "$(BUILD_DIR)/"
 
-# Source files
-PLAYER_FILE = schillaci/Schillaci.java
-MAIN_FILE = connectx/CXGame.java
-
 ALL_FILES = $(wildcard $(SRC_DIR)/*.java) $(wildcard $(SRC_DIR)/*/*.java) $(wildcard $(SRC_DIR)/*/*/*.java)
 
 # Default parameters (can also be specified from command line)
 CX = 6 7 4
 REPS = 50
 
-PLAYER_2 = $(QUASI_RANDOM)
+PLAYER_2 = connectx.L1.L1
 
-app:
-	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(QUASI_RANDOM) $(PLAYER_CLASS) 
+app: build
+	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(PLAYER_2) $(PLAYER_CLASS) 
 
-test:
+test: build
+	@echo "Testing..."
 	@py tester.py
 
-run: 
+analyze: test
+	@echo "Analyzing..."
+	@py analyzer.py
+
+run: build
 	@echo "Running..."
 	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_CLASS) $(PLAYER_2) -r $(REPS)
 	@$(JR) $(OPTIONS) $(PLAYER_TESTER_CLASS) $(CX) $(PLAYER_2) $(PLAYER_CLASS) -r $(REPS)
 
-build: clean-build $(ALL_FILES)
+build: clean $(ALL_FILES)
 	@echo "Building..."
-	@mkdir $(BUILD_DIR)
+	@mkdir "$(BUILD_DIR)"
 	@$(JC) -cp "$(SRC_DIR)/" -d "$(BUILD_DIR)/" -sourcepath "$(SRC_DIR)/" $(ALL_FILES)
 
 # Removes both binaries and documentation
@@ -51,3 +52,6 @@ clean: clean-build
 # Removes binaries
 clean-build:
 	@rd /s /q $(BUILD_DIR)
+
+clean-datasets:
+	@rm -rf 

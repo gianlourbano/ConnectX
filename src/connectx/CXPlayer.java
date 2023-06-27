@@ -33,16 +33,18 @@ public interface CXPlayer {
 	 *
 	 * @param M               Board rows
 	 * @param N               Board columns
-	 * @param X               Number of coins to be aligned (horizontally, vertically, diagonally) for a win
+	 * @param X               Number of coins to be aligned (horizontally,
+	 *                        vertically, diagonally) for a win
 	 * @param first           True if it is the first player, False otherwise
-	 * @param timeout_in_secs Maximum amount of time (in seconds) for initialization and for selecting a column
+	 * @param timeout_in_secs Maximum amount of time (in seconds) for initialization
+	 *                        and for selecting a column
 	 */
 	public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs);
 
 	/**
 	 * Select a move (a column index)
 	 *
-	 * @param B A CXBoard object representing the current state of the game 
+	 * @param B A CXBoard object representing the current state of the game
 	 *
 	 * @return a column index
 	 */
@@ -54,5 +56,12 @@ public interface CXPlayer {
 	 * @return string
 	 */
 	public String playerName();
+
+	/**
+	 * Called when the game is over; used to free resources if needed or log data
+	 * @param B A CXBoard object representing the final state of the game
+	 * 
+	 */
+	public void Exit(CXBoard B);
 
 }

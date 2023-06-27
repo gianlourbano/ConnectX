@@ -23,4 +23,15 @@
 hs_err_pid*
 replay_pid*
 
-build
+#build
+build/
+
+# datasets
+*.csv
+*.json
+plots
+
+# other players
+src/connectx/Player/
+src/connectx/Rebarbaro/
+

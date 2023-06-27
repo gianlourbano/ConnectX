@@ -143,4 +143,7 @@ public class L1 implements CXPlayer {
 	public String playerName() {
 		return "L1";
 	}
+
+	public void Exit(CXBoard B) {
+	}
 }

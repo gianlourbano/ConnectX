@@ -201,7 +201,7 @@ public class CXBoard {
 	 */
 	public CXGameState markColumn(int col) throws IndexOutOfBoundsException, IllegalStateException {
 		if (gameState != CXGameState.OPEN) { // Game already ended
-			throw new IllegalStateException("Game ended!");
+			throw new IllegalStateException("Game ended!" + " (" + numOfMarkedCells() + ")");
 		} else if (!(0 <= col && col < N)) { // Column index out of matrix bounds
 			throw new IndexOutOfBoundsException("Index " + col + " out of matrix bounds\n" + "Column must be between 0 and " + (N - 1));
 		} else if (RP[col] == -1) {          // Column full
