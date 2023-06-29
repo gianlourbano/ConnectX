@@ -27,7 +27,7 @@ totConfigs = len(configs)
 
 def analyze_dataset(dt: str):
 
-    dataset = pd.read_csv(dt, header=None)
+    dataset = pd.read_csv(dt)
     data = dataset.to_numpy()
 
     # data blueprint: [M, N, X, first, totMoves, totNodes, totEvaluatedNodes, totPrunedNodes, totReusedNodes]
@@ -68,6 +68,7 @@ def analyze_dataset(dt: str):
                 'Nodes pruned', 'Nodes reused(TT)'])
     plt.xlabel('Configuration')
     plt.ylabel('Average value')
+    plt.yscale('log')
     plt.grid(True)
     plt.savefig(f'plots/plot_{dt[5:-4]}.png')
 
@@ -93,6 +94,7 @@ for i in range(3, 8):
     plt.title(f'Comparison performance for {data_types[i-3]}')
     plt.xticks(np.arange(0, totConfigs, 1), configs, rotation=90)
     plt.legend()
+    plt.yscale('log')
     plt.xlabel('Configuration')
     plt.ylabel('Average value')
     plt.grid(True)

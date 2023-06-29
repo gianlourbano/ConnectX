@@ -323,7 +323,7 @@ public class CXPlayerTester {
 		}
 
 		boolean stop = false;
-		boolean exit = false;
+		boolean exit = true;
 
 		for (int i = 1; i <= ROUNDS && !stop; i++) {
 			if (VERBOSE)

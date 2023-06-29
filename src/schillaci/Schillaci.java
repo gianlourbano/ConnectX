@@ -1,8 +1,10 @@
 package schillaci;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Random;
 import java.util.concurrent.TimeoutException;
 
@@ -57,6 +59,18 @@ public class Schillaci implements CXPlayer {
 
     // Log data
     public void Exit(CXBoard B) {
+        File data = new File("data_" + playerNameString + ".csv");
+        if(!data.exists() && !data.isDirectory()) {
+            FileWriter fw;
+            try {
+                fw = new FileWriter("data_" + playerNameString + ".csv", true);
+                fw.write("M,N,X,First,TotalMoves,TotalNodes,TotalNodesEvaluated,TotalNodesPruned,TotalNodesReused\n");
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         FileWriter fw;
         int totMoves = B.numOfMarkedCells();
         try {
@@ -74,7 +88,7 @@ public class Schillaci implements CXPlayer {
         return B.numOfMarkedCells() < 2;
     }
 
-     private void shuffle(Integer[] L) {
+    private void shuffle(Integer[] L) {
         for (int i = 0; i < L.length; i++) {
             int randomIndexToSwap = rand.nextInt(L.length);
             int temp = L[randomIndexToSwap];
@@ -87,7 +101,13 @@ public class Schillaci implements CXPlayer {
         START = System.currentTimeMillis();
 
         Integer[] L = B.getAvailableColumns();
-        shuffle(L);
+        // order moves based on how for they are from the center
+        Arrays.sort(L, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Math.abs(o1 - N / 2) - Math.abs(o2 - N / 2);
+            }
+        });
 
         if (isFirstMove(B))
             return this.N / 2;
@@ -172,7 +192,6 @@ public class Schillaci implements CXPlayer {
         }
 
         Integer[] L = B.getAvailableColumns();
-        shuffle(L); 
         boolean isMax = B.currentPlayer() == 0;
 
         int score = evaluator.eval(B);
