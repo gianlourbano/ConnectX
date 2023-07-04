@@ -10,7 +10,7 @@ import connectx.CXBoard;
 import connectx.CXGameState;
 import connectx.CXPlayer;
 
-public class Schillaci implements CXPlayer {
+public class Schillaci_A implements CXPlayer {
     private int timeout_in_secs;
 
     private int moveNumber;
@@ -39,12 +39,8 @@ public class Schillaci implements CXPlayer {
     // killer moves
     private int[][] killerMoves;
 
-    public Schillaci() {
+    public Schillaci_A() {
         moveNumber = 0;
-    }
-
-    public int getMoveNumber() {
-        return moveNumber;
     }
 
     public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
@@ -213,7 +209,7 @@ public class Schillaci implements CXPlayer {
 
         if (isMax) {
             for (int col : L) {
-                if (col != killerMoves[B.getMoveNumber()][0] && col != killerMoves[B.getMoveNumber()][1]) {
+                if (col != killerMoves[moveNumber][0] && col != killerMoves[moveNumber][1]) {
                     B.markColumn(col);
                     alpha = Math.max(alpha, search(B, depth - 1, alpha, beta, startTime, timeLimit));
                     B.unmarkColumn();
@@ -229,7 +225,7 @@ public class Schillaci implements CXPlayer {
             return alpha;
         } else {
             for (int col : L) {
-                if (col != killerMoves[B.getMoveNumber()][0] && col != killerMoves[B.getMoveNumber()][1]) {
+                if (col != killerMoves[moveNumber][0] && col != killerMoves[moveNumber][1]) {
                     B.markColumn(col);
                     beta = Math.min(beta, search(B, depth - 1, alpha, beta, startTime, timeLimit));
                     B.unmarkColumn();
@@ -244,7 +240,6 @@ public class Schillaci implements CXPlayer {
             transpositionTable.storeHashNode(hash, beta, depth, TranspositionTable.UPPER_BOUND);
             return beta;
         }
-
     }
 
     private void checktime() throws TimeoutException {
