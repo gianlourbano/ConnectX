@@ -11,7 +11,7 @@ import connectx.CXBoard;
 import connectx.CXGameState;
 import connectx.CXPlayer;
 
-public class Schillaci_A implements CXPlayer {
+public class Schillaci_L1 implements CXPlayer {
     private int timeout_in_secs;
 
     private int M, N, X;
