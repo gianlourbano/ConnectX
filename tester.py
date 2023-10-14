@@ -10,6 +10,8 @@ pip install alive-progress
 pip install tabulate
 """
 
+build_dir = "build/"
+
 configs = []
 
 with open("configs.txt", "r") as f:
@@ -73,7 +75,7 @@ class player:
 	def to_print(self):
 		return [self.name[self.name.rfind(".")+1:], self.score, self.wins, self.losses, self.ties, self.wins_as_first, self.wins_as_second, self.losses_as_first,self.losses_as_second, self.errors]
 
-players = []
+players: list[player] = []
 
 with open("players.txt", "r") as f:
 	for line in f:
@@ -84,7 +86,7 @@ totGames = len(configs) * len(players) * (len(players)-1)
 
 def play(player1: player, player2: player, bar):
 	for config in configs:
-		ret = subprocess.check_output("java -cp build/ connectx.CXPlayerTester " + config + " " + player1.name + " " + player2.name, shell=True)
+		ret = subprocess.check_output("java -cp " + build_dir + " connectx.CXPlayerTester " + config + " " + player1.name + " " + player2.name, shell=True)
 		ret = ret.decode("utf-8")
 
 		name1 = player1.name[player1.name.rfind(".")+1:]
@@ -125,13 +127,22 @@ def play_games(game, bar):
 	play(players[game[1]], players[game[0]], bar)
 
 with alive_bar(totGames) as bar:
-	with concurrent.futures.ThreadPoolExecutor() as executor:
+	with concurrent.futures.ThreadPoolExecutor(max_workers=8) as executor:
 		executor.map(play_games, games, [bar]*len(games))
 
 players.sort(reverse=True)
 
 table = [["Name", "Score", "Wins", "Losses", "Ties","Wins as first", "Wins as second", "Losses as first", "Losses as second", "Errors"]]
-for player in players:
-	table.append(player.to_print())
+for pl in players:
+	table.append(pl.to_print())
 
 print(tabulate.tabulate(table, headers="firstrow", tablefmt="fancy_grid"))
+
+with open("results.txt", "a") as f:
+	f.write(tabulate.tabulate(table, headers="firstrow"))
+	f.write("\n\n")
+
+with open("tex.txt", "a") as f:
+	f.write(tabulate.tabulate(table, headers="firstrow", tablefmt="latex"))
+	f.write("\n\n")
+

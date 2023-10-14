@@ -1,0 +1,240 @@
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     489 &    133 &       25 &     90 &              65 &               68 &                15 &                 10 &        0 \\
+ Schillaci\_L0 &     411 &    104 &       45 &     99 &              47 &               57 &                23 &                 22 &        0 \\
+ Schillaci    &     388 &    119 &       47 &     67 &              58 &               61 &                31 &                 16 &       31 \\
+ L1           &     223 &     45 &      115 &     88 &              25 &               20 &                58 &                 57 &        0 \\
+ L0           &      70 &      2 &      182 &     64 &               2 &                0 &                92 &                 90 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     473 &    127 &       29 &     92 &              60 &               67 &                20 &                  9 &        0 \\
+ Schillaci    &     408 &    124 &       43 &     64 &              60 &               64 &                31 &                 12 &       31 \\
+ Schillaci\_L0 &     401 &    101 &       49 &     98 &              46 &               55 &                25 &                 24 &        0 \\
+ L1           &     227 &     48 &      117 &     83 &              24 &               24 &                62 &                 55 &        0 \\
+ L0           &      74 &      5 &      184 &     59 &               2 &                3 &                90 &                 94 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci    &     364 &    112 &       25 &     39 &              58 &               54 &                15 &                 10 &        0 \\
+ Schillaci\_L0 &     341 &     91 &       27 &     68 &              42 &               49 &                16 &                 11 &        0 \\
+ L1           &     194 &     43 &       78 &     65 &              24 &               19 &                41 &                 37 &        0 \\
+ L0           &      64 &      4 &      130 &     52 &               2 &                2 &                59 &                 71 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     499 &    138 &       25 &     85 &              68 &               70 &                14 &                 11 &        0 \\
+ Schillaci\_L0 &     403 &    101 &       47 &    100 &              49 &               52 &                25 &                 22 &        0 \\
+ Schillaci    &     388 &    122 &       53 &     61 &              58 &               64 &                34 &                 19 &       31 \\
+ L1           &     236 &     52 &      116 &     80 &              24 &               28 &                61 &                 55 &        0 \\
+ L0           &      69 &      4 &      187 &     57 &               2 &                2 &                98 &                 89 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     467 &    124 &       29 &     95 &              59 &               65 &                17 &                 12 &        0 \\
+ Schillaci\_L0 &     400 &     97 &       42 &    109 &              44 &               53 &                18 &                 24 &        0 \\
+ Schillaci    &     395 &    122 &       40 &     69 &              60 &               62 &                27 &                 13 &       31 \\
+ L1           &     246 &     50 &      102 &     96 &              27 &               23 &                55 &                 47 &        0 \\
+ L0           &      65 &      2 &      187 &     59 &               1 &                1 &                94 &                 93 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     482 &    129 &       24 &     95 &              61 &               68 &                14 &                 10 &        0 \\
+ Schillaci    &     416 &    133 &       44 &     58 &              62 &               71 &                31 &                 13 &       31 \\
+ Schillaci\_L0 &     385 &     94 &       51 &    103 &              42 &               52 &                30 &                 21 &        0 \\
+ L1           &     215 &     41 &      115 &     92 &              22 &               19 &                63 &                 52 &        0 \\
+ L0           &      80 &      3 &      174 &     71 &               1 &                2 &                87 &                 87 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     507 &    141 &       23 &     84 &              71 &               70 &                11 &                 12 &        0 \\
+ Schillaci\_L2 &     451 &    121 &       39 &     88 &              60 &               61 &                21 &                 18 &        0 \\
+ Schillaci\_L0 &     404 &    104 &       52 &     92 &              51 &               53 &                26 &                 26 &        0 \\
+ L1           &     217 &     43 &      117 &     88 &              25 &               18 &                55 &                 62 &        0 \\
+ L0           &      71 &      1 &      179 &     68 &               1 &                0 &                89 &                 90 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     471 &    127 &       31 &     90 &              63 &               64 &                16 &                 15 &        0 \\
+ Schillaci\_L2 &     460 &    121 &       30 &     97 &              57 &               64 &                15 &                 15 &        0 \\
+ Schillaci\_L0 &     402 &     97 &       40 &    111 &              42 &               55 &                23 &                 17 &        0 \\
+ L1           &     224 &     42 &      108 &     98 &              22 &               20 &                60 &                 48 &        0 \\
+ L0           &      74 &      4 &      182 &     62 &               3 &                1 &                90 &                 92 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     462 &    123 &       32 &     93 &              57 &               66 &                20 &                 12 &        0 \\
+ Schillaci\_L2 &     456 &    121 &       34 &     93 &              55 &               66 &                24 &                 10 &        0 \\
+ Schillaci\_L0 &     404 &     99 &       42 &    107 &              45 &               54 &                24 &                 18 &        0 \\
+ L1           &     225 &     41 &      105 &    102 &              20 &               21 &                53 &                 52 &        0 \\
+ L0           &      82 &      5 &      176 &     67 &               1 &                4 &                90 &                 86 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L2 &     476 &    125 &       22 &    101 &              62 &               63 &                15 &                  7 &        0 \\
+ Schillaci\_L1 &     438 &    109 &       28 &    111 &              55 &               54 &                14 &                 14 &        0 \\
+ Schillaci\_L0 &     403 &     98 &       41 &    109 &              44 &               54 &                22 &                 19 &        0 \\
+ L1           &     235 &     48 &      109 &     91 &              24 &               24 &                53 &                 56 &        0 \\
+ L0           &      71 &      3 &      183 &     62 &               2 &                1 &                92 &                 91 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     493 &    135 &       25 &     88 &              76 &               59 &                10 &                 15 &        0 \\
+ Schillaci\_L0 &     443 &    115 &       35 &     98 &              62 &               53 &                12 &                 23 &        0 \\
+ L1           &     305 &     73 &       89 &     86 &              50 &               23 &                33 &                 56 &        0 \\
+ Schillaci\_L2 &     291 &     70 &       97 &     81 &              63 &                7 &                13 &                 84 &        0 \\
+ L0           &     121 &     20 &      167 &     61 &              18 &                2 &                76 &                 91 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L2 &     495 &    134 &       21 &     93 &              65 &               69 &                14 &                  7 &        0 \\
+ Schillaci\_L1 &     431 &    108 &       33 &    107 &              52 &               56 &                19 &                 14 &        0 \\
+ Schillaci\_L0 &     392 &     99 &       54 &     95 &              43 &               56 &                30 &                 24 &        0 \\
+ L1           &     233 &     47 &      109 &     92 &              26 &               21 &                51 &                 58 &        0 \\
+ L0           &      81 &      4 &      175 &     69 &               4 &                0 &                88 &                 87 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     480 &    126 &       20 &    102 &              64 &               62 &                12 &                  8 &        0 \\
+ Schillaci\_L2 &     449 &    117 &       33 &     98 &              58 &               59 &                13 &                 20 &        0 \\
+ Schillaci\_L0 &     400 &    100 &       48 &    100 &              50 &               50 &                23 &                 25 &        0 \\
+ L1           &     244 &     51 &      106 &     91 &              28 &               23 &                54 &                 52 &        0 \\
+ L0           &      65 &      4 &      191 &     53 &               3 &                1 &                93 &                 98 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L1 &     468 &    122 &       24 &    102 &              58 &               64 &                12 &                 12 &        0 \\
+ Schillaci\_L2 &     466 &    120 &       22 &    106 &              58 &               62 &                12 &                 10 &        0 \\
+ Schillaci\_L0 &     398 &     99 &       48 &    101 &              49 &               50 &                27 &                 21 &        0 \\
+ L1           &     217 &     44 &      119 &     85 &              23 &               21 &                61 &                 58 &        0 \\
+ L0           &      82 &      6 &      178 &     64 &               3 &                3 &                88 &                 90 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L2 &     467 &    121 &       23 &    104 &              62 &               59 &                11 &                 12 &        0 \\
+ Schillaci\_L1 &     447 &    114 &       29 &    105 &              55 &               59 &                14 &                 15 &        0 \\
+ Schillaci\_L0 &     387 &     93 &       47 &    108 &              48 &               45 &                19 &                 28 &        0 \\
+ L1           &     249 &     48 &       95 &    105 &              25 &               23 &                48 &                 47 &        0 \\
+ L0           &      66 &      0 &      182 &     66 &               0 &                0 &                94 &                 88 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L2 &     484 &    129 &       22 &     97 &              61 &               68 &                12 &                 10 &        0 \\
+ Schillaci\_L1 &     442 &    113 &       32 &    103 &              59 &               54 &                19 &                 13 &        0 \\
+ Schillaci\_L0 &     389 &     96 &       51 &    101 &              48 &               48 &                28 &                 23 &        0 \\
+ L1           &     235 &     44 &      101 &    103 &              21 &               23 &                49 &                 52 &        0 \\
+ L0           &      74 &      2 &      178 &     68 &               1 &                1 &                86 &                 92 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L2 &     522 &    141 &       40 &     99 &              65 &               76 &                21 &                 19 &        0 \\
+ Schillaci\_L1 &     506 &    135 &       44 &    101 &              65 &               70 &                23 &                 21 &        0 \\
+ Schillaci\_L0 &     431 &    105 &       59 &    116 &              55 &               50 &                34 &                 25 &        0 \\
+ L1           &     297 &     65 &      113 &    102 &              35 &               30 &                57 &                 56 &        0 \\
+ L0           &      92 &      2 &      192 &     86 &               1 &                1 &                92 &                100 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name         &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ Schillaci\_L2 &     492 &    132 &       20 &     96 &              60 &               72 &                16 &                  4 &        0 \\
+ Schillaci\_L1 &     458 &    118 &       26 &    104 &              56 &               62 &                15 &                 11 &        0 \\
+ Schillaci\_L0 &     383 &     96 &       57 &     95 &              44 &               52 &                31 &                 26 &        0 \\
+ L1           &     218 &     43 &      116 &     89 &              20 &               23 &                57 &                 59 &        0 \\
+ L0           &      86 &      8 &      178 &     62 &               4 &                4 &                94 &                 84 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name               &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ GranVisirSchillaci &     562 &    143 &       34 &    133 &              59 &               84 &                24 &                 10 &        0 \\
+ Schillaci\_L1       &     517 &    128 &       49 &    133 &              60 &               68 &                28 &                 21 &        0 \\
+ Schillaci\_L0       &     499 &    123 &       57 &    130 &              65 &               58 &                27 &                 30 &        0 \\
+ Rebarbaro          &     487 &    113 &       49 &    148 &              58 &               55 &                30 &                 19 &        0 \\
+ L1                 &     266 &     50 &      144 &    116 &              25 &               25 &                72 &                 72 &        0 \\
+ L0                 &      94 &      8 &      232 &     70 &               3 &                5 &               114 &                118 &        0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{lrrrrrrrrr}
+\hline
+ Name               &   Score &   Wins &   Losses &   Ties &   Wins as first &   Wins as second &   Losses as first &   Losses as second &   Errors \\
+\hline
+ ReginaDegliArcieri &     521 &    148 &       23 &     77 &              72 &               76 &                16 &                  7 &        0 \\
+ GranVisirSchillaci &     469 &    125 &       29 &     94 &              53 &               72 &                17 &                 12 &        0 \\
+ Schillaci\_L0       &     364 &     90 &       64 &     94 &              40 &               50 &                36 &                 28 &        0 \\
+ L1                 &     228 &     47 &      114 &     87 &              22 &               25 &                63 &                 51 &        0 \\
+ L0                 &      74 &      6 &      186 &     56 &               4 &                2 &                93 &                 93 &        0 \\
+\hline
+\end{tabular}
+

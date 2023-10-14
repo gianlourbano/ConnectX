@@ -2,18 +2,8 @@ from matplotlib import pyplot as plt
 import numpy as np
 import pandas as pd
 import glob
-import argparse
-
-# Path: analizer.py
-
-parser = argparse.ArgumentParser(description='Analyze data')
-
-parser.add_argument('-v', '--verbose',
-                    action='store_true', help='verbose mode')
-parser.add_argument('-d', '--detailed',
-                    help='Detailed analysis')
-
-args = parser.parse_args()
+import tabulate
+from os import system as sys
 
 configs = []
 
@@ -23,7 +13,6 @@ with open("configs.txt", "r") as f:
             configs.append(line.replace("\n", ""))
 
 totConfigs = len(configs)
-
 
 def analyze_dataset(dt: str):
 
@@ -62,15 +51,16 @@ def analyze_dataset(dt: str):
     for i in range(0, 5):
         plt.plot(y[i], label=mean_data[0, i])
 
-    plt.title(f'Average performance of {dt[5:-4]}')
-    plt.xticks(np.arange(0, totConfigs, 1), configs, rotation=90)
+    plt.title(f'Average performance of {dt[5:-4]}', fontsize=32)
+    plt.xticks(np.arange(0, totConfigs, 1), configs, rotation=90, fontsize=20)
     plt.legend(['Total Moves', 'Nodes visited', 'Nodes evaluated',
-                'Nodes pruned', 'Nodes reused(TT)'])
-    plt.xlabel('Configuration')
-    plt.ylabel('Average value')
+                'Nodes pruned', 'Nodes reused(TT)'], fontsize=22)
+    plt.xlabel('Configuration', fontsize=22)
+    plt.ylabel('Average value', fontsize=22)
     plt.yscale('log')
+    plt.yticks(fontsize=20)
     plt.grid(True)
-    plt.savefig(f'plots/plot_{dt[5:-4]}.png')
+    plt.savefig(f'plots/plot_{dt[5:-4]}.png',dpi=300, pad_inches=0.01, bbox_inches='tight')
 
     return mean_data
 
@@ -78,24 +68,28 @@ def analyze_dataset(dt: str):
 files = glob.glob('data_*.csv')
 datasets = []
 for f in files:
-    print(f)
+    print("Analyzing " + f + "...")
     datasets.append(analyze_dataset(f))
 
 datasets = np.array(datasets)
 data_types = ["Total Moves", "Nodes visited","Nodes evaluated","Nodes pruned","Nodes reused(TT)"]
 
 # plot the comparison between the datasets, per column
+print("Comparing the data...")
 for i in range(3, 8):
     plt.figure(figsize=(20, 10))
     title = "Comparison for " + data_types[i-3]
     for j in range(0, len(datasets)):
         plt.plot(datasets[j][:, i], label=files[j][5:-4])
     
-    plt.title(f'Comparison performance for {data_types[i-3]}')
-    plt.xticks(np.arange(0, totConfigs, 1), configs, rotation=90)
-    plt.legend()
+    plt.title(f'Comparison performance for {data_types[i-3]}', fontsize=32)
+    plt.xticks(np.arange(0, totConfigs, 1), configs, rotation=90, fontsize=20)
+    plt.legend(fontsize=22)
     plt.yscale('log')
-    plt.xlabel('Configuration')
-    plt.ylabel('Average value')
+    plt.xlabel('Configuration', fontsize=22)
+    plt.ylabel('Average value', fontsize=22)
+    plt.yticks(fontsize=20)
     plt.grid(True)
-    plt.savefig(f'plots/plot_comparison_{data_types[i-3]}.png')
+    plt.savefig(f'plots/plot_comparison_{data_types[i-3]}.png',dpi=300, bbox_inches='tight', pad_inches=0.01)
+
+print("Done!")

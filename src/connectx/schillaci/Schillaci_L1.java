@@ -1,9 +1,10 @@
-package schillaci;
+package connectx.schillaci;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Random;
+import java.util.Comparator;
 import java.util.concurrent.TimeoutException;
 
 import connectx.CXBoard;
@@ -12,10 +13,6 @@ import connectx.CXPlayer;
 
 public class Schillaci_A implements CXPlayer {
     private int timeout_in_secs;
-
-    private int moveNumber;
-
-    private Random rand;
 
     private int M, N, X;
     private boolean first;
@@ -26,52 +23,46 @@ public class Schillaci_A implements CXPlayer {
     private boolean searchCutoff = false;
     private Evaluator evaluator;
     private ZobristTable zobristTable;
-    private TranspositionTable transpositionTable;
-    private CXGameState myWin, yourWin;
+    private TranspositionTableDEEP transpositionTable;
 
     // data
-    private int numNodes = 0;
-    private int numNodesEvaluated = 0;
-    private int numNodesPruned = 0;
-    private int numNodesReused = 0;
-    private String playerNameString = "Schillaci";
-    
-    // killer moves
-    private int[][] killerMoves;
-
-    public Schillaci_A() {
-        moveNumber = 0;
-    }
+    private long numNodes = 0;
+    private long numNodesEvaluated = 0;
+    private long numNodesPruned = 0;
+    private long numNodesReused = 0;
+    private String playerNameString = "Schillaci_L1";
 
     public void initPlayer(int M, int N, int X, boolean first, int timeout_in_secs) {
         this.timeout_in_secs = timeout_in_secs;
         this.first = first;
 
-        rand = new Random(System.currentTimeMillis());
         evaluator = new Evaluator(M, N, X);
-        transpositionTable = new TranspositionTable(100 * 1024 * 1024 * 4);
+        transpositionTable = new TranspositionTableDEEP(100 * 1024 * 1024);
         zobristTable = new ZobristTable(M, N);
         this.M = M;
         this.N = N;
         this.X = X;
 
-        myWin = first ? CXGameState.WINP1 : CXGameState.WINP2;
-        yourWin = first ? CXGameState.WINP2 : CXGameState.WINP1;
-
         numNodes = 0;
         numNodesEvaluated = 0;
         numNodesPruned = 0;
         numNodesReused = 0;
-
-        // Initialize killer moves array
-        killerMoves = new int[M][2];
-        for (int i = 0; i < M; i++) {
-            Arrays.fill(killerMoves[i], -1);
-        }
     }
 
     // Log data
     public void Exit(CXBoard B) {
+        File data = new File("data_" + playerNameString + ".csv");
+        if(!data.exists() && !data.isDirectory()) {
+            FileWriter fw;
+            try {
+                fw = new FileWriter("data_" + playerNameString + ".csv", true);
+                fw.write("M,N,X,First,TotalMoves,TotalNodes,TotalNodesEvaluated,TotalNodesPruned,TotalNodesReused\n");
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         FileWriter fw;
         int totMoves = B.numOfMarkedCells();
         try {
@@ -89,22 +80,17 @@ public class Schillaci_A implements CXPlayer {
         return B.numOfMarkedCells() < 2;
     }
 
-    private void shuffle(Integer[] L) {
-        for (int i = 0; i < L.length; i++) {
-            int randomIndexToSwap = rand.nextInt(L.length);
-            int temp = L[randomIndexToSwap];
-            L[randomIndexToSwap] = L[i];
-            L[i] = temp;
-        }
-    }
-
     public int selectColumn(CXBoard B) {
-        moveNumber++;
-        
         START = System.currentTimeMillis();
 
         Integer[] L = B.getAvailableColumns();
-        shuffle(L);
+        // order moves based on how for they are from the center
+        Arrays.sort(L, new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return Math.abs(o1 - N / 2) - Math.abs(o2 - N / 2);
+            }
+        });
 
         if (isFirstMove(B))
             return this.N / 2;
@@ -189,7 +175,6 @@ public class Schillaci_A implements CXPlayer {
         }
 
         Integer[] L = B.getAvailableColumns();
-        shuffle(L);
         boolean isMax = B.currentPlayer() == 0;
 
         int score = evaluator.eval(B);
@@ -203,41 +188,38 @@ public class Schillaci_A implements CXPlayer {
 
         if (depth == 0 || B.gameState() != CXGameState.OPEN || score >= winCutoff || score <= -winCutoff) {
             numNodesEvaluated++;
-            transpositionTable.storeHashNode(hash, score, depth, TranspositionTable.EXACT);
             return score;
         }
 
         if (isMax) {
             for (int col : L) {
-                if (col != killerMoves[moveNumber][0] && col != killerMoves[moveNumber][1]) {
-                    B.markColumn(col);
-                    alpha = Math.max(alpha, search(B, depth - 1, alpha, beta, startTime, timeLimit));
-                    B.unmarkColumn();
+                B.markColumn(col);
+                alpha = Math.max(alpha, search(B, depth - 1, alpha, beta, startTime, timeLimit));
+                B.unmarkColumn();
 
-                    if (beta <= alpha) {
-                        numNodesPruned++;
-                        break;
-                    }
+                if (beta <= alpha) {
+                    transpositionTable.storeHashNode(hash, alpha, depth, TranspositionTableDEEP.LOWER_BOUND);
+                    numNodesPruned++;
+                    break;
                 }
             }
 
-            transpositionTable.storeHashNode(hash, alpha, depth, TranspositionTable.LOWER_BOUND);
+            transpositionTable.storeHashNode(hash, alpha, depth, TranspositionTableDEEP.EXACT);
             return alpha;
         } else {
             for (int col : L) {
-                if (col != killerMoves[moveNumber][0] && col != killerMoves[moveNumber][1]) {
-                    B.markColumn(col);
-                    beta = Math.min(beta, search(B, depth - 1, alpha, beta, startTime, timeLimit));
-                    B.unmarkColumn();
+                B.markColumn(col);
+                beta = Math.min(beta, search(B, depth - 1, alpha, beta, startTime, timeLimit));
+                B.unmarkColumn();
 
-                    if (beta <= alpha) {
-                        numNodesPruned++;
-                        break;
-                    }
+                if (beta <= alpha) {
+                    transpositionTable.storeHashNode(hash, beta, depth, TranspositionTableDEEP.UPPER_BOUND);
+                    numNodesPruned++;
+                    break;
                 }
             }
 
-            transpositionTable.storeHashNode(hash, beta, depth, TranspositionTable.UPPER_BOUND);
+            transpositionTable.storeHashNode(hash, beta, depth, TranspositionTableDEEP.EXACT);
             return beta;
         }
     }

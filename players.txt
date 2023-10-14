@@ -1,6 +1,5 @@
-schillaci.Schillaci 
-schillaci.Schillaci_L0 
-connectx.Rebarbaro.Rebarbaro 
-connectx.Player.ABP #
-connectx.L0.L0 
-connectx.L1.L1 
+connectx.schillaci.Schillaci_L0
+connectx.schillaci.GranVisirSchillaci
+connectx.ReginaDegliArcieri.ReginaDegliArcieri
+connectx.L0.L0
+connectx.L1.L1

@@ -9,7 +9,7 @@ BUILD_DIR = build
 
 # Packages and classes
 MAIN_CLASS = connectx.CXGame
-PLAYER_CLASS = schillaci.Schillaci
+PLAYER_CLASS = connectx.schillaci.GranVisirSchillaci
 RANDOM = connectx.L0.L0
 QUASI_RANDOM = connectx.L1.L1
 PLAYER_TESTER_CLASS = connectx.CXPlayerTester
@@ -23,10 +23,10 @@ ALL_FILES = $(wildcard $(SRC_DIR)/*.java) $(wildcard $(SRC_DIR)/*/*.java) $(wild
 CX = 6 7 4
 REPS = 50
 
-PLAYER_2 = connectx.L1.L1
+PLAYER_2 = connectx.ReginaDegliArcieri.ReginaDegliArcieri
 
 app: build
-	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX) $(PLAYER_2) $(PLAYER_CLASS) 
+	@$(JR) $(OPTIONS) $(MAIN_CLASS) $(CX)  $(PLAYER_CLASS) 
 
 test: build
 	@echo "Testing..."
@@ -53,5 +53,6 @@ clean: clean-build
 clean-build:
 	@rd /s /q $(BUILD_DIR)
 
-clean-datasets:
-	@rm -rf 
+clean-data:
+	@del *.csv
+	

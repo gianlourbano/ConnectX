@@ -1,3 +1,20 @@
-\chapter{Conclusion}
+\chapter{Conclusioni}
 
-<Conclusion here>
+Come possiamo vedere dai grafici, entrambi \verb!GranVisirSchillaci! e \verb!Schillaci_L1! hanno performance molto simili, visitando un numero di nodi affine.
+La differenza più grande sta nel numero di nodi riutilizzati, in quanto \verb!GranVisirSchillaci! usa una transposition table più efficiente e che gestisce meglio le collisioni.
+Grazie a quest'ultima infatti visitando lo stesso numero di nodi è in grado di vincere di più, come dimostrato dalla tabella \ref{table:2}.
+
+\section {Altre possibili migliorie}
+
+Come detto in precedenza, ci sono molte altre possibili migliore che si possono apportare all'AI per affinarne le performance.
+Tra queste:
+\begin{itemize}
+    \item la ricerca quiescente, che permette di evitare il problema dell'effetto orizzonte;
+    \item varie euristiche come le killer moves e la history heuristic;
+    \item implementazioni più efficienti della transposition table, non utilizzando le \verb!HashMap! di Java;
+    \item implementazioni più efficienti della funzione di valutazione euristica;
+    \item machine learning, addestrando l'AI contro se stessa;
+    \item opening book, che permette di memorizzare le mosse di apertura più vantaggiose;
+    \item Monte Carlo Tree Search, un metodo di ricerca basato su simulazioni;
+\end{itemize}
+

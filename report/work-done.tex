@@ -1,26 +1,135 @@
-\chapter{Work Done}
+\chapter{Lavoro svolto}
 
-\section{<Section title>}
+\section{Implementazione}
 
-\subsection{<Sub-section title>}
+\subsection{Schillaci L0} \label{Schillaci L0}
 
-\subsection{<Sub-section title>}
-some text\cite{citation-2-name-here}, some more text
-\subsection{<Sub-section title>}
+Siamo partiti da una versione base dell'algoritmo Minmax, facendo uso di alpha-beta pruning e iterative deepening.
+L'alpha-beta pruning aiuta a ridurre il numero di nodi dell'albero di gioco da esplorare, quando si è sicuri che non porteranno ad una soluzione migliore di quella già trovata.
+Nel caso pessimo, non migliora la complessità temporale del Minmax, che è $O(b^d)$, dove $b$ è il fattore di branching e $d$ la profondità dell'albero. Nel caso ottimo invece la complessità scende a $O(b^{d/2})$.
+L'iterative deepening permette di invece di esplorare il sottoalbero di un nodo con profondità incrementale, partendo da 1 e arrivando fino alla profondità massima consentita. In questo modo, in caso di timeout, si ha comunque una mossa da fare.
 
-\subsection{<Sub-section title>}
+Questa versione del nostro giocatore performa discretamente bene, ma non è in grado di battere giocatori esperti.
 
-Refer figure \ref{fig:label}.
+\subsection{Schillaci L1}
 
-\begin{figure}[htb]
-\centering
-\includegraphics[scale=0.3]{./glider} % e.g. insert ./image for image.png in the working directory, adjust scale as necessary
-\caption{<Caption here>}
-\label{fig:label} % insert suitable label, this is used to refer to a fig from within the text as shown above
-\end{figure}
+Ci sono molte possibili migliorie che si possono apportare all'algoritmo Minmax per migliorarne l'efficienza.
+Tra queste:
+\begin{itemize}
+    \item Transposition table
+    \item Ordinamento delle mosse
+    \item Refutation table
+    \item Funzione di valutazione euristica (heuristic evaluation function) specifica per il ConnectX
+    \item Varie euristiche, come le \textit{killer moves} e la \textit{history heuristic}
+\end{itemize}
 
-\subsection{<Sub-section title>}
+Ad esempio, un migliore ordinamento delle mosse da valutare per un certo sottoalbero potrebbe portare a fare pruning più spesso, riducendo il numero di nodi da visitare.
+Possiamo notare anche come in realtà questo albero di gioco sia in realtà un grafo diretto aciclico (DAG), in quanto ad una configurazione della partita si può arrivare in più modi. Questo permette di usare una \textit{transposition table}, che memorizza le configurazioni già visitate e il loro valore, in modo da non doverle ricalcolare.
 
+\subsubsection{Funzione di valutazione euristica}
 
-\section{<Section title>}
+Una funzione che faccia uso di conoscenze specifiche del gioco permette di valutare una configurazione della partita in modo più accurato rispetto ad una funzione generica, come quella usata in \ref{Schillaci L0}.
+Si usano in questa implementazione nozioni come:
+\begin{itemize}
+    \item \textbf{Minaccia}: una minaccia è una sequenza di $X-1$ pedine dello stesso giocatore, seguite da una casella vuota. Questa minaccia può essere completata con una mossa vincente.
+    \item \textbf{Open ends}: un open end è una casella vuota che può essere usata per completare una minaccia.
+    \item \textbf{Seven Trap}: una seven trap è una configurazione in cui un giocatore ha due minacce, in cui l'avversario, bloccandone una, perde alla mossa successiva.
+    \item \textbf{Posizionamento delle pedine}: le colonne centrali della board sono più importanti di quelle esterne, in quanto permettono di creare più minacce.
+\end{itemize}
 
+Ognuna di queste nozioni ha un peso, e lo score finale è dato dalla somma pesata di queste.
+$$
+    score = \sum_{i=0}^{n} w_i * (f_i[P1] - f_i[P2])
+$$
+
+\subsubsection{Transposition table}
+
+Una transposition table non è nient'altro che una hash map: come indice si utilizza un hash ricavato dalla configurazione attuale della partita, e come valore si memorizza lo score calcolato, la profondità a cui è stato calcolato e una flag, che indica se quel determinato score è esatto, un upper bound o un lower bound.
+Come tutte le hash map, anche la TT soffre di problemi di collisioni: per risolvere questo problema ci sono vari metodi di rimpiazzamento, come DEEP, NEW, OLD, ecc. In questa implementazione è stato usato il metodo DEEP, che rimpiazza l'elemento con quello nuovo solo se la profondità è maggiore.
+
+\subsubsection{Zobrist Hashing}
+
+Per calcolare l'hash della configurazione attuale della partita, si è usato l'algoritmo di Zobrist \cite{ZOB70}.
+Due tabelle di dimensioni $M*N$ vengono inizializzate con valori random. L'hash della configurazione è uguale allo XOR di tutte le pedine presenti.
+Data la natura dell'operatore XOR, eseguire o annullare una mossa è semplice, in quanto $hash\ XOR\ a\ XOR\  a = hash$.
+Questo permette quindi di aggiornare l'hash in tempo $O(1)$.
+
+\subsection{Risultati di Schillaci L1}
+
+Con queste due migliorie, la nostra AI diventa molto più forte, riuscendo a battere la versione precedente.
+Contro \verb!connectx.L0! vince ogni partita sia come primo che come secondo giocatore, mentre contro \verb!connectx.L1! registra una vittoria nel 98\% dei casi.
+
+\subsection{Gran Visir Schillaci}
+
+Versione definitiva della nostra AI, \verb!GranVisirSchillaci! utilizza un'implementazione diversa e più efficiente delle transposition table.
+
+La funzione \verb!selectColumn! esegue una chiamata ad \verb!iterativeDeepening! per ogni mossa, che a sua volta poi esegue una ricerca Minmax con alpha-beta pruning.
+
+Due approcci possibili sono:
+\begin{itemize}
+    \item determinare una profondità massima, che potrebbe essere $M*N-1$ (numero massimo di mosse possibili in una partita $-1$);
+    \item dedicare ad ogni mossa una percentuale del timeout; in questo modo la profondità massima è unbounded ma si utilizza tutto il timeout per la ricerca della mossa ottimale.
+\end{itemize}
+
+La funzione \verb!search! esegue una ricerca Minmax con alpha-beta pruning, utilizzando una transposition table per memorizzare le configurazioni già visitate.
+Innanzi tutto, si controlla se la configurazione attuale è finale, ovvero se siamo arrivati alla profondità massima oppure se la partita è conclusa. In tal caso si ritorna lo score calcolato della funzione \verb!eval!.
+
+Si procede poi a cercare nella transposition table la configurazione attuale. Se questa è presente, una volta estratta la mossa migliore, si esegue una ricerca su quella mossa.
+Dopodiché, si esegue una ricerca su tutte le mosse rimanenti, ritornando poi il miglior score ottenuto.
+
+\subsubsection{Transposition table: TWOBIG1}
+
+In questa implementazione, la transposition table è una hash table di dimensione fissa, dove ad ogni elemento sono associate due entry: in caso di collisione, se la nuova posizione è stata cercata ad una profondità maggiore di quella già presente, allora la nuova posizione la rimpiazza, e quest'ultima viene spostata nella seconda entry; altrimenti, la nuova posizione è salvata nella seconda entry.
+Quindi, la nuova posizione è sempre conservata, con la meno importante che viene sovrascritta.
+\textit{TWOBIG1} \cite{BDU70} è un metodo di rimpiazzamento che tiene conto sia della profondità che della grandezza del sottoalbero visitato.
+
+\subsection{Risultati di Gran Visir Schillaci}
+
+\verb!Gran Visir Schillaci! è in grado di battere tutte le versioni precedenti, posizionadosi al primo posto nella classifica del torneo interno.
+
+\begin{center}
+    \begin{table}[h!]
+        \centering
+        \begin{tabular}{||l|cccc|c||}
+            \hline
+            Name               & Score & Wins & Losses & Ties & Errors \\
+            \hline
+            \rowcolor{lightgray}
+            GranVisirSchillaci & 492   & 132  & 20     & 96   & 0      \\
+            Schillaci\_L1      & 458   & 118  & 26     & 104  & 0      \\
+            Schillaci\_L0      & 383   & 96   & 57     & 95   & 0      \\
+            L1                 & 218   & 43   & 116    & 89   & 0      \\
+            L0                 & 86    & 8    & 178    & 62   & 0      \\
+            \hline
+        \end{tabular}
+        \caption{Torneo eseguito tra le varie versioni.}
+        \label{table:2}
+    \end{table}
+
+\end{center}
+
+\section{Analisi dei costi}
+
+\subsection{Costo temporale}
+
+Come detto in precedenza, il costo computazionale dell'algoritmo Minmax è $O(b^d)$, dove $b$ è il fattore di branching e $d$ la profondità dell'albero.
+Con l'utilizzo dell'alpha-beta pruning, il costo scende a $O(b^{d/2})$ nel caso ottimo e medio, mentre rimane invariato nel caso pessimo.
+L'uso dell'iterative deepening non aumenta il costo computazionale, ma permette di avere una mossa da fare anche in caso di timeout.
+
+Tutte le operazioni sulla transposition table sono eseguite in tempo $O(1)$. Calcolare l'hash della configurazione attuale può essere fatto in tempo $O(1)$.
+
+La funzione di valutazione euristica è eseguita in tempo $O(M*N)$.
+
+\subsection{Costo spaziale}
+
+Il costo spaziale della ricerca Minmax è $O(b^d)$, mentre l'\verb!iterativeDeepening! non aumenta il costo spaziale, che è lineare rispetto alla profondità massima.
+
+La dimensione della transposition table è calcolata come segue:
+$$
+    \textrm{size} = 2^{20} * M = O(M)
+$$
+
+dove $M$ è il numero di mosse possibili.
+
+La \verb!ZobristTable! occupa invece $O(M*N)$ spazio.
+L'\verb!Evaluator! contiene tutte le sequenze di lunghezza $X$ di pedine possibili, anche questo proporzionale a $O(M*N)$.

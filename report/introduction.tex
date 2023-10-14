@@ -1,14 +1,91 @@
-\chapter{Introduction}
+\chapter{Analisi del problema}
 
-\section{Background and Recent Research}
-\subsection{<any sub section here>}
+\section{Descrizione del gioco}
 
-\subsection{Literature Survey}
+ConnectX è un gioco a turni per due persone, a somma zero e a informazione perfetta. Lo scopo è quello di allineare $X$ pedine dello stesso colore in una griglia di dimensione $N \times M$. è la versione generalizzata del più conosciuto Forza 4, la cui configurazione è $M=6, N=7, X=4$.
 
-\subsubsection{<Sub-subsection title>}
-some text\cite{citation-1-name-here}, some more text
+Lo scopo del progetto è quello di sviluppare un giocatore software in
+grado di giocare nel modo migliore possibile su tutte le istanze (ragionevolmente) possibili di un ConnectX.
 
-\subsubsection{<Sub-subsection title>}
-even more text\footnote{<footnote here>}, and even more.
+\section{Possibili approcci}
 
-\section{Motivation}
+\subsection{Approccio basato su regole}
+
+Essendo ConnectX un gioco risolto per alcune configurazioni (ad esempio $M=6, N=7, X=4$), è possibile sviluppare un giocatore che, in base alla configurazione della partita, applichi delle regole per decidere la mossa da effettuare.
+Un famoso esempio nella letteratura è dato da Victor Allis , che ha sviluppato un giocatore che sfrutta delle regole per vincere in un Forza 4 \cite{VICTOR}.
+
+\subsection{Approccio basato su brute-force}
+
+Un altro possibile approccio sarebbe quello di sviluppare un giocatore che generi l'albero di gioco completo e che scelga la mossa migliore in base ad una funzione di valutazione delle foglie.
+Questo non risulta possibile in quanto l'albero di gioco è troppo grande per essere generato e visitato in un tempo ragionevole. Per la configurazione $M=6, N=7, X=4$ ci sono $\leq 3^{42}$ possibili stati di gioco (upper bound, togliendo le configurazioni illegali è stato dimostrato che siano $\leq 7*10^{13}$ \cite{VICTOR}).
+
+\subsection{Approccio basato su ricerca}
+
+Un approccio più ragionevole è quello di sviluppare un giocatore che non generi tutto l'albero di gioco, ma solo una parte (fino ad una determinata profondità), e che quindi scelga la mossa migliore da fare in base ad una ricerca limitata.
+Questo approccio è stato utilizzato per sviluppare la nostra AI.
+Alcuni algoritmi di decisione su alberi utilizzati nella letteratura sono:
+\begin{itemize}
+    \item Minmax, con e senza $\alpha-\beta$ pruning
+    \item Negamax, versione modificata del Minmax che fa uso della proprietà $max(a,b) = -min(-a,-b)$
+    \item Negascout (o Principal Variation Search), versione modificata del Negamax che fa uso di una ricerca a finestra zero
+    \item Monte Carlo Tree Search
+\end{itemize}
+
+\section{Torneo interno}
+
+La nostra AI parteciperà ad un torneo interno al corso, gareggiando contro quelle di altri colleghi.
+
+Nasce da qui l'idea di sviluppare varie versioni della nostra AI, in modo incrementale: per tenere traccia delle migliorie apportate e per verificarne l'efficacia, verranno effettuate delle partite di test tra le varie versioni.
+
+Lo script \texttt{test.py} si occupa di effettuare un torneo tra le varie versioni, stampando a schermo i risultati.
+
+Una vittoria vale 3 punti, un pareggio 1 punto, una sconfitta 0 punti. È considerata una vittoria a tavolino se l'avversario fa errori quali timeout, mossa illegale, ecc.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ | c | c | c | }
+        \hline
+        $M$ & $N$ & $X$ \\
+        \hline
+        4   & 4   & 4   \\
+        5   & 4   & 4   \\
+        6   & 4   & 4   \\
+        7   & 4   & 4   \\
+        4   & 5   & 4   \\
+        5   & 5   & 4   \\
+        6   & 5   & 4   \\
+        7   & 5   & 4   \\
+        4   & 6   & 4   \\
+        5   & 6   & 4   \\
+        6   & 6   & 4   \\
+        7   & 6   & 4   \\
+        4   & 7   & 4   \\
+        5   & 7   & 4   \\
+        6   & 7   & 4   \\
+        7   & 7   & 4   \\
+        5   & 4   & 5   \\
+        6   & 4   & 5   \\
+        7   & 4   & 5   \\
+        4   & 5   & 5   \\
+        5   & 5   & 5   \\
+        6   & 5   & 5   \\
+        7   & 5   & 5   \\
+        4   & 6   & 5   \\
+        5   & 6   & 5   \\
+        6   & 6   & 5   \\
+        7   & 6   & 5   \\
+        4   & 7   & 5   \\
+        5   & 7   & 5   \\
+        6   & 7   & 5   \\
+        7   & 7   & 5   \\
+        25  & 25  & 10  \\
+        50  & 50  & 15  \\
+        75  & 75  & 20  \\
+        100 & 100 & 30  \\
+        \hline
+    \end{tabular}
+    \caption{configurazioni previste dal torneo.}
+    \label{table:1}
+\end{table}
+
+Per ogni configurazione prevista da \ref{table:1}, ogni AI giocherà sia come primo giocatore che come secondo.
